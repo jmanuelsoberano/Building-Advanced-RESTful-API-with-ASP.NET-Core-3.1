@@ -64,6 +64,17 @@ namespace CourseLibrary.API
                 };
             });
 
+            services.Configure<MvcOptions>(config =>
+            {
+                var newtonsoftJsonOutputFormatter = config.OutputFormatters
+                        .OfType<NewtonsoftJsonOutputFormatter>()?.FirstOrDefault();
+
+                if (newtonsoftJsonOutputFormatter != null)
+                {
+                    newtonsoftJsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.marvin.hateoas+json");
+                }
+            });
+
             services.AddTransient<IPropertyMappingService, PropertyMappingService>();
 
             services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
