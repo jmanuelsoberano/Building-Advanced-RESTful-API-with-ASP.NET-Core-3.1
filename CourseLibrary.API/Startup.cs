@@ -32,9 +32,16 @@ namespace CourseLibrary.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddResponseCaching();
+
             services.AddControllers(setupAction =>
             {
                 setupAction.ReturnHttpNotAcceptable = true;
+                setupAction.CacheProfiles.Add("120SecondsChaceProfile",
+                    new CacheProfile()
+                    {
+                        Duration = 120
+                    });
             })
             .AddNewtonsoftJson(setupAction =>
             {
@@ -85,7 +92,7 @@ namespace CourseLibrary.API
 
             services.AddDbContext<CourseLibraryContext>(option =>
             {
-                option.UseSqlServer(@"Server=Localhost; Database=CourseLibraryDB; Trusted_Connection=True;");
+                option.UseSqlServer(@"Server=DESKTOP-LN56R8K\SQL2019; Database=CourseLibraryDB; Trusted_Connection=True;");
             });
         }
 
@@ -108,6 +115,7 @@ namespace CourseLibrary.API
                 });
             }
 
+            app.UseResponseCaching();
             //app.UseHttpsRedirection();
 
             app.UseRouting();
