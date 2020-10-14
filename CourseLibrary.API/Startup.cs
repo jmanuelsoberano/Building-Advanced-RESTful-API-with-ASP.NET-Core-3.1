@@ -124,7 +124,7 @@ namespace CourseLibrary.API
                 });
             }
 
-            app.UseResponseCaching();
+            //app.UseResponseCaching();
             //app.UseHttpsRedirection();
 
             app.UseHttpCacheHeaders();
